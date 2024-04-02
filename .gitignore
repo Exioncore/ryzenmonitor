@@ -1,1 +1,5 @@
 .vscode/settings.json
+src
+ryzenmonitor
+pkg
+ryzenmonitor-*.pkg.tar.zst
