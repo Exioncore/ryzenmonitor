@@ -226,7 +226,7 @@ static int create_sysfs_dir(void) {
                 // Temperature attribute (/sys/kernel/ryzenmonitor/ccd*/temperature)
                 ccd->temperature = (struct temperature_attribute_t) {
                     .dev_attr = (struct device_attribute) {
-                        .attr = { .name = ccd->name, .mode = 0444 },
+                        .attr = { .name = "temperature", .mode = 0444 },
                         .show = temperature_show,
                     },
                     .ccd = ccd_i
