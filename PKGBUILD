@@ -19,7 +19,7 @@ prepare() {
     sed -e "s/@VERSION@/$pkgver/" \
         -i "${srcdir}/${_pkgbase}/dkms.conf"
     echo "blacklist k10temp" > "${srcdir}/${_pkgbase}/ryzenmonitor.conf"
-    echo "\nryzenmonitor" >> "${srcdir}/${_pkgbase}/ryzenmonitor.conf"
+    echo "ryzenmonitor" >> "${srcdir}/${_pkgbase}/ryzenmonitor.conf"
 }
 
 package() {
