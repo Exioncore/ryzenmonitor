@@ -214,7 +214,6 @@ static int create_sysfs_dir(void) {
             return 1;
         }
         // CCDs
-        pr_info("Ryzen Monitor: Found %d CCDs\n", cpu_data.n_ccds);
         cpu_data.ccds = kmalloc_array(cpu_data.n_ccds, sizeof(struct ccd_data_t), GFP_KERNEL);
         for (uint8_t ccd_i = 0; ccd_i < cpu_data.n_ccds; ccd_i++) {
             // Get CCD and set name
@@ -319,7 +318,11 @@ static int ryzenmonitor_probe(struct pci_dev *pdev, const struct pci_device_id *
     // Store the PCI device and determine CPU topology
     cpu_data.pci_dev = pdev;
     cpu_data.n_ccds = number_of_ccds();
-    cpu_data.n_cores_per_ccd = (num_active_cpus() / num_threads_per_core()) / cpu_data.n_ccds;
+    pr_info("Ryzen Monitor: Detected %d CCDs\n", cpu_data.n_ccds);
+    unsigned int n_logical_cores = num_online_cpus();
+    unsigned int n_physical_cores = n_logical_cores / num_threads_per_core();
+    pr_info("Ryzen Monitor: Detected %d Logical Cores on %d Physical Cores\n", n_logical_cores, n_physical_cores);
+    cpu_data.n_cores_per_ccd = n_physical_cores / cpu_data.n_ccds;
     cpu_data.energy_unit = energy_unit();
     // Create SysFS
     if (!create_sysfs_dir()) {
