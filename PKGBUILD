@@ -18,8 +18,8 @@ sha256sums=('SKIP')
 prepare() {
     sed -e "s/@VERSION@/$pkgver/" \
         -i "${srcdir}/${_pkgbase}/dkms.conf"
-    echo "blacklist k10temp" > "${srcdir}/${_pkgbase}/ryzenmonitor.conf"
     echo "ryzenmonitor" >> "${srcdir}/${_pkgbase}/ryzenmonitor.conf"
+    echo "blacklist k10temp" > "${srcdir}/${_pkgbase}/k10temp.conf"
 }
 
 package() {
@@ -31,4 +31,6 @@ package() {
     # Enable ryzenmonitor
     install -d "${pkgdir}/etc/modules-load.d/"
     install -Dm644 "${srcdir}/${_pkgbase}/ryzenmonitor.conf" "${pkgdir}/etc/modules-load.d/."
+    install -d "${pkgdir}/etc/modprobe.d/"
+    install -Dm644 "${srcdir}/${_pkgbase}/k10temp.conf" "${pkgdir}/etc/modprobe.d/."
 }
